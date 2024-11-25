@@ -2354,7 +2354,7 @@ dependencies = [
 [[package]]
 name = "rig-core"
 version = "0.4.1"
-source = "git+https://github.com/0xPlaygrounds/rig#2cba66272d5af328fa9177c8a1d8b82d276748b7"
+source = "git+https://github.com/edisontim/rig#939886d9a116959e1a62ee3c1dd7f7343563b11d"
 dependencies = [
  "futures",
  "glob",
