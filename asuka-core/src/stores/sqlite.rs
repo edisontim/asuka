@@ -393,50 +393,53 @@ impl SqliteStore {
         user_id: i64,
         other_user_id: i64,
         since: chrono::DateTime<chrono::Utc>,
+        limit: usize,
     ) -> Result<Vec<Message>, SqliteError> {
         self.conn
-        .call(move |conn| {
-            let mut stmt = conn.prepare(
-                "SELECT m.id, m.channel_id, m.account_id, m.role, m.content, m.reply_to_id, m.created_at 
-                  FROM messages m 
-                  WHERE m.account_id = ?1 OR (m.reply_to_id = ?1 AND m.account_id = ?2) 
-                  AND m.created_at > ?3
-                  ORDER BY m.created_at ASC",
-            )?;
+            .call(move |conn| {
+                let query =
+                    "SELECT m.id, m.channel_id, m.account_id, m.role, m.content, m.reply_to_id, m.created_at 
+                FROM messages m 
+                WHERE (m.account_id = ?1 OR (m.reply_to_id = ?1 AND m.account_id = ?2)) 
+                    AND m.created_at > ?3
+                ORDER BY m.created_at ASC
+                LIMIT ?4";
 
-            let messages = stmt
-                .query_map(
-                    rusqlite::params![
-                        user_id,
-                        other_user_id,
-                        since.format("%Y-%m-%d %H:%M:%S").to_string()
-                    ],
-                    |row| {
-                        let created_at_str: String = row.get(6)?;
-                        let created_at = chrono::NaiveDateTime::parse_from_str(
-                            &created_at_str,
-                            "%Y-%m-%d %H:%M:%S",
-                        )
-                        .map_err(|_| rusqlite::Error::InvalidQuery)?
-                        .and_utc();
+            let mut stmt = conn.prepare(query)?;
 
-                        Ok(Message {
-                            id: row.get(0)?,
-                            channel_id: row.get(1)?,
-                            account_id: row.get(2)?,
-                            role: row.get(3)?,
-                            content: row.get(4)?,
-                            reply_to_id: row.get(5)?,
-                            created_at,
-                        })
-                    },
-                )?
-                .collect::<Result<Vec<Message>, _>>()?;
+            let messages = stmt.query_map(
+                rusqlite::params![
+                            user_id,
+                            other_user_id,
+                            since.format("%Y-%m-%d %H:%M:%S").to_string(),
+                            limit
+                        ],
+                        |row| {
+                            let created_at_str: String = row.get(6)?;
+                            let created_at = chrono::NaiveDateTime::parse_from_str(
+                                &created_at_str,
+                                "%Y-%m-%d %H:%M:%S",
+                            )
+                            .map_err(|_| rusqlite::Error::InvalidQuery)?
+                            .and_utc();
 
-            Ok(messages)
-        })
-        .await
-        .map_err(|e| SqliteError::DatabaseError(Box::new(e)))
+                            Ok(Message {
+                                id: row.get(0)?,
+                                channel_id: row.get(1)?,
+                                account_id: row.get(2)?,
+                                role: row.get(3)?,
+                                content: row.get(4)?,
+                                reply_to_id: row.get(5)?,
+                                created_at,
+                            })
+                        },
+                    )?
+                    .collect::<Result<Vec<Message>, _>>()?;
+
+                Ok(messages)
+            })
+            .await
+            .map_err(|e| SqliteError::DatabaseError(Box::new(e)))
     }
 
     pub async fn get_recent_messages(
