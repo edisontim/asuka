@@ -1,9 +1,9 @@
-mod types;
-mod store;
-mod models;
 mod error;
+mod models;
+mod store;
+mod types;
 
-pub use types::{Source, ChannelType, MessageMetadata, MessageContent};
-pub use store::KnowledgeBase;
-pub use models::{Document, Message, Account, Channel, Conversation};
 pub use error::ConversionError;
+pub use models::{Account, Channel, Conversation, Document, Message};
+pub use store::KnowledgeBase;
+pub use types::{ChannelType, MessageContent, MessageMetadata, Source};

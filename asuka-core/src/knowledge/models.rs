@@ -52,6 +52,30 @@ pub struct Message {
     pub created_at: Option<chrono::DateTime<chrono::Utc>>,
 }
 
+impl From<Message> for rig::completion::Message {
+    fn from(message: Message) -> Self {
+        if message.role == "user" {
+            rig::completion::Message::User {
+                content: rig::OneOrMany::one(rig::message::UserContent::Text(rig::message::Text {
+                    text: format!(
+                        "[{}] {}",
+                        message.created_at.unwrap().to_rfc3339(),
+                        message.content
+                    ),
+                })),
+            }
+        } else {
+            rig::completion::Message::Assistant {
+                content: rig::OneOrMany::one(rig::message::AssistantContent::Text(
+                    rig::message::Text {
+                        text: message.content,
+                    },
+                )),
+            }
+        }
+    }
+}
+
 fn deserialize_datetime<'de, D>(deserializer: D) -> Result<Option<DateTime<Utc>>, D::Error>
 where
     D: Deserializer<'de>,

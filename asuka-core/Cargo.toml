@@ -1,7 +1,7 @@
 [package]
 name = "asuka-core"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [features]
 pdf = ["rig-core/pdf"]
@@ -11,7 +11,7 @@ arrow-array = "53.3.0"
 async-trait = "0.1"
 anyhow = "1.0"
 clap = { version = "4.5.21", features = ["derive", "env"] }
-chrono = { version = "0.4.20-rc.1", features = ["serde"]  }
+chrono = { version = "0.4.20-rc.1", features = ["serde"] }
 dotenv = "0.15.0"
 futures = "0.3.31"
 git2 = "0.19.0"
@@ -23,11 +23,11 @@ rusqlite = { version = "0.32", features = ["bundled", "chrono"] }
 serde.workspace = true
 serde_json.workspace = true
 serenity = { version = "0.12", features = [
-    "client",
-    "gateway",
-    "rustls_backend",
-    "model",
-    "cache",
+	"client",
+	"gateway",
+	"rustls_backend",
+	"model",
+	"cache",
 ] }
 thiserror = "2.0.3"
 tokio = { version = "1.36", features = ["full"] }
@@ -39,8 +39,8 @@ walkdir = "2.4"
 zerocopy = "0.8.10"
 twitter-v2 = "0.1.8"
 teloxide = { version = "0.13.0", default-features = false, features = [
-    "macros",
-    "ctrlc_handler",
+	"macros",
+	"ctrlc_handler",
 ] }
 mcp-sdk = { git = "https://github.com/AntigmaLabs/mcp-sdk" }
 tokio-tungstenite = "0.26.0"

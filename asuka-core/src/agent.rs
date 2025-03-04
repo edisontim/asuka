@@ -1,4 +1,8 @@
-use rig::{agent::AgentBuilder, completion::CompletionModel, embeddings::EmbeddingModel};
+use rig::{
+    agent::AgentBuilder,
+    completion::{CompletionModel, Preamble},
+    embeddings::EmbeddingModel,
+};
 use tracing::info;
 
 use crate::{character::Character, knowledge::KnowledgeBase};
@@ -23,7 +27,7 @@ impl<M: CompletionModel, E: EmbeddingModel> Agent<M, E> {
 
     pub fn builder(&self) -> AgentBuilder<M> {
         let builder = AgentBuilder::new(self.completion_model.clone())
-            .preamble(&self.character.preamble)
+            .preamble(vec![Preamble::new(self.character.preamble.clone())])
             .context(&format!("Your name: {}", self.character.name))
             .dynamic_context(2, self.knowledge.clone().document_index());
 

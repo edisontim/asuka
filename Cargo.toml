@@ -3,11 +3,14 @@ members = ["asuka-core", "asuka-starknet", "examples"]
 resolver = "2"
 
 [workspace.dependencies]
-rig-core = { git = "https://github.com/edisontim/rig", branch = "feat/mcp-tools", default-features = false, features = [
-    "derive",
+rig-core = { path = "../rig/rig-core", default-features = false, features = [
+	"derive",
 ] }
-rig-sqlite = { git = "https://github.com/edisontim/rig", branch = "feat/mcp-tools", default-features = false }
+
+rig-sqlite = { path = "../rig/rig-sqlite", default-features = false }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "2.0.9"
-tokio-rusqlite = { version = "0.6.0", features = ["bundled"], default-features = false }
+tokio-rusqlite = { version = "0.6.0", features = [
+	"bundled",
+], default-features = false }

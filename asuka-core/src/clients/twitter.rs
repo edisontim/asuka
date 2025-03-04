@@ -165,7 +165,7 @@ impl<M: CompletionModel + 'static, E: EmbeddingModel + 'static, A: Authorization
             .context("Please keep your responses concise and under 280 characters.")
             .build();
 
-        let response = match agent.prompt(&tweet.text).await {
+        let response = match agent.prompt(tweet.text).await {
             Ok(response) => response,
             Err(err) => {
                 error!(?err, "Failed to generate response");

@@ -101,7 +101,7 @@ impl<'a> GitLoader<'a> {
     /// Create a [FileLoader] for all `.txt` files that match the glob "files/*.txt".
     ///
     /// ```rust
-	/// use rig::loaders::FileLoader;
+    /// use rig::loaders::FileLoader;
     /// let loader = FileLoader::with_glob("files/*.txt").unwrap();
     /// ```
     pub fn with_glob(
@@ -121,7 +121,7 @@ impl<'a> GitLoader<'a> {
     /// Create a [FileLoader] for all files that are in the directory "files" (ignores subdirectories).
     ///
     /// ```rust
-	/// use rig::loaders::FileLoader;
+    /// use rig::loaders::FileLoader;
     /// let loader = FileLoader::with_dir("files").unwrap();
     /// ```
     pub fn with_dir(

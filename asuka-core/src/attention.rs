@@ -1,4 +1,4 @@
-use rig::completion::{CompletionModel, ModelChoice};
+use rig::completion::{message::AssistantContent, CompletionModel};
 use tracing::debug;
 
 use crate::knowledge::{ChannelType, Source};
@@ -129,21 +129,26 @@ impl<M: CompletionModel> Attention<M> {
             context.message_content
         );
 
-        let builder = self.completion_model.completion_request(&prompt);
+        let builder = self.completion_model.completion_request(prompt);
 
         match self.completion_model.completion(builder.build()).await {
-            Ok(response) => match response.choice {
-                ModelChoice::Message(text) => {
-                    if text.contains(RESPOND_COMMAND) {
-                        AttentionCommand::Respond
-                    } else if text.contains(STOP_COMMAND) {
-                        AttentionCommand::Stop
-                    } else {
-                        AttentionCommand::Ignore
+            Ok(response) => {
+                // Get the first content item from the response
+                let first_content = response.choice.first();
+                match first_content {
+                    AssistantContent::Text(text) => {
+                        if text.text.contains(RESPOND_COMMAND) {
+                            AttentionCommand::Respond
+                        } else if text.text.contains(STOP_COMMAND) {
+                            AttentionCommand::Stop
+                        } else {
+                            AttentionCommand::Ignore
+                        }
                     }
+                    AssistantContent::ToolCall(_) => AttentionCommand::Ignore,
+                    _ => unreachable!(),
                 }
-                ModelChoice::ToolCall(_, _, _) => AttentionCommand::Ignore,
-            },
+            }
             Err(_) => AttentionCommand::Ignore,
         }
     }

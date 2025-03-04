@@ -136,7 +136,7 @@ impl<M: CompletionModel + 'static, E: EmbeddingModel + 'static> EventHandler
             .context("Please keep your responses concise and under 2000 characters when possible.")
             .build();
 
-        let response = match agent.prompt(&msg.content).await {
+        let response = match agent.prompt(msg.content).await {
             Ok(response) => response,
             Err(err) => {
                 error!(?err, "Failed to generate response");
