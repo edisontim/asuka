@@ -2712,7 +2712,7 @@ dependencies = [
 [[package]]
 name = "mcp-sdk"
 version = "0.0.3"
-source = "git+https://github.com/AntigmaLabs/mcp-sdk#c2c71a7a82986a81c059e2f5f102ad7c80aa22a2"
+source = "git+https://github.com/edisontim/mcp-sdk?branch=main#bb7ba83fc8c05bbdf687e6df9407c352ae1ba7ba"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3770,7 +3770,7 @@ dependencies = [
 [[package]]
 name = "rig-core"
 version = "0.9.0"
-source = "git+https://github.com/edisontim/rig?branch=feat/mcp-tools-bedrock#69b8286fb9f2e574ceedeb8d9e974488df2bdfd1"
+source = "git+https://github.com/edisontim/rig?branch=feat%2Fmcp-tools-bedrock#07ceb35f079ad029ed060c27bab38bf0af4ee142"
 dependencies = [
  "async-stream",
  "bytes",
@@ -3794,7 +3794,7 @@ dependencies = [
 [[package]]
 name = "rig-derive"
 version = "0.1.0"
-source = "git+https://github.com/edisontim/rig?branch=feat/mcp-tools-bedrock#69b8286fb9f2e574ceedeb8d9e974488df2bdfd1"
+source = "git+https://github.com/edisontim/rig?branch=feat%2Fmcp-tools-bedrock#07ceb35f079ad029ed060c27bab38bf0af4ee142"
 dependencies = [
  "indoc",
  "proc-macro2",
@@ -3805,7 +3805,7 @@ dependencies = [
 [[package]]
 name = "rig-sqlite"
 version = "0.1.5"
-source = "git+https://github.com/edisontim/rig?branch=feat/mcp-tools-bedrock#69b8286fb9f2e574ceedeb8d9e974488df2bdfd1"
+source = "git+https://github.com/edisontim/rig?branch=feat%2Fmcp-tools-bedrock#07ceb35f079ad029ed060c27bab38bf0af4ee142"
 dependencies = [
  "chrono",
  "rig-core",
